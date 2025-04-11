@@ -11,10 +11,9 @@ import java.util.Properties;
 public class EmailSender {
 
     public static void sendEmailWithAttachment(String to, String subject, String body, File attachment) throws MessagingException, IOException {
-        Dotenv dotenv = Dotenv.load();
 
-        String from = dotenv.get("EMAIL_USERNAME");
-        String password = dotenv.get("EMAIL_PASSWORD");
+        String from = System.getenv("EMAIL_USERNAME");
+        String password = System.getenv("EMAIL_PASSWORD");
 
         Properties props = new Properties();
         props.put("mail.smtp.host", "smtp.gmail.com");

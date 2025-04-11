@@ -17,13 +17,10 @@ import java.util.Comparator;
 
 public class SenderBot extends TelegramLongPollingBot {
 
-
     private final UserEmailRepository emailRepo;
 
-    Dotenv dotenv = Dotenv.load();
-
-    String botToken = dotenv.get("BOT_TOKEN");
-    String botName = dotenv.get("BOT_NAME");
+    String botToken = System.getenv("BOT_TOKEN");
+    String botName = System.getenv("BOT_NAME");
 
     public SenderBot(UserEmailRepository emailRepo) {
         this.emailRepo = emailRepo;
