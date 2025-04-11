@@ -1,0 +1,33 @@
+# 📬 Telegram File-to-Email Bot (Java)
+
+A Telegram bot built in Java that allows users to send photos, documents, or other files and have them automatically emailed to an address of their choice. The bot features a reply menu, email address setup, and local database storage via SQLite.
+
+---
+
+## 🚀 Features
+
+- 📩 Users can set their own email address
+- 📎 Supports photos, documents, audio, video, and voice messages
+- 📤 Sends files to user's email
+- 🧠 Remembers users' email addresses using SQLite
+- 🧾 Friendly reply menu interface
+
+---
+
+## 📦 Technologies
+
+- Java 17+
+- [TelegramBots](https://github.com/rubenlagus/TelegramBots) (v6.5.0)
+- JavaMail (Jakarta Mail)
+- SQLite (via JDBC)
+- dotenv-java (for config secrets)
+
+---
+
+## ⚙️ Setup
+
+### 1. Clone the project
+
+```bash
+git clone https://github.com/yourusername/telegram-email-bot.git
+cd telegram-email-bot
