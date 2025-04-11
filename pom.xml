@@ -12,6 +12,8 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+<!--      <maven.compiler.source>1.8</maven.compiler.source>-->
+<!--      <maven.compiler.target>1.8</maven.compiler.target>-->
   </properties>
 
   <dependencies>
@@ -49,17 +51,31 @@
   </dependencies>
   <build>
     <plugins>
+
+      <!-- Create fat JAR -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-jar-plugin</artifactId>
+        <artifactId>maven-assembly-plugin</artifactId>
         <version>3.3.0</version>
         <configuration>
           <archive>
             <manifest>
-              <mainClass>telegram.bot.Main</mainClass>
+              <mainClass>telegram.bot.Main</mainClass> <!-- your real main class -->
             </manifest>
           </archive>
+          <descriptorRefs>
+            <descriptorRef>jar-with-dependencies</descriptorRef>
+          </descriptorRefs>
         </configuration>
+        <executions>
+          <execution>
+            <id>make-assembly</id>
+            <phase>package</phase>
+            <goals>
+              <goal>single</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -69,6 +85,8 @@
           <target>15</target>
         </configuration>
       </plugin>
+
     </plugins>
   </build>
+
 </project>
