@@ -1,4 +1,4 @@
-package telegram.bot;
+package telegram.bot.sendtomail;
 
 import java.sql.*;
 
