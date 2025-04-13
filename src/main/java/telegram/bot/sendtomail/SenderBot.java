@@ -1,5 +1,6 @@
 package telegram.bot.sendtomail;
 
+import io.github.cdimascio.dotenv.Dotenv;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.GetFile;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -21,8 +22,16 @@ public class SenderBot extends TelegramLongPollingBot {
 
     private final UserEmailRepository emailRepo;
 
-    String botToken = System.getenv("BOT_TOKEN");
-    String botName = System.getenv("BOT_NAME");
+    private final String botToken = System.getenv("SENDER_BOT_TOKEN") != null
+            ? System.getenv("SENDER_BOT_TOKEN")
+            : Dotenv.load().get("SENDER_BOT_TOKEN");
+
+    private final String botName = System.getenv("SENDER_BOT_NAME") != null
+            ? System.getenv("SENDER_BOT_NAME")
+            : Dotenv.load().get("SENDER_BOT_NAME");
+
+  //  String botToken = System.getenv("BOT_TOKEN");
+ //   String botName = System.getenv("BOT_NAME");
 
     public SenderBot(UserEmailRepository emailRepo) {
         this.emailRepo = emailRepo;
