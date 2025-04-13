@@ -17,9 +17,7 @@ public class DeeplTranslator {
     private final String apiKey;
 
     public DeeplTranslator() {
-        // Read from Railway environment variables
-
-        this.apiKey = System.getenv("DEEPL_API_KEY") != null
+           this.apiKey = System.getenv("DEEPL_API_KEY") != null
                 ? System.getenv("DEEPL_API_KEY")
                 : Dotenv.load().get("DEEPL_API_KEY");
     }

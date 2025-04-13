@@ -1,4 +1,5 @@
 package telegram.bot.translator;
+
 import java.sql.*;
 
 public class UserPreferenceRepository {

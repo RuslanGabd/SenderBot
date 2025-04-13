@@ -80,15 +80,22 @@ public class TranslateBot extends TelegramLongPollingBot {
         String cleaned = text.replaceAll("[^A-Z]", "").toUpperCase();
 
         if (langs.contains(cleaned)) {
-            String mode = languageSetMode.getOrDefault(userId, "target");
+            if (!languageSetMode.containsKey(userId)) {
+                sendTextMessage(chatId, "❗ Please choose whether you're setting source or target language.");
+                sendLanguageMenu(chatId);
+                return;
+            }
+
+            String mode = languageSetMode.get(userId);
             try {
-                if (mode.equals("source")) {
+                if ("source".equals(mode)) {
                     preferenceRepo.savePreferences(userId, cleaned, preferenceRepo.getTargetLang(userId));
                     sendTextMessage(chatId, "✅ Source language set to " + cleaned);
                 } else {
                     preferenceRepo.savePreferences(userId, preferenceRepo.getSourceLang(userId), cleaned);
                     sendTextMessage(chatId, "✅ Target language set to " + cleaned);
                 }
+                languageSetMode.remove(userId); // clear after use
             } catch (SQLException e) {
                 e.printStackTrace();
                 sendTextMessage(chatId, "❌ Error saving language preference");

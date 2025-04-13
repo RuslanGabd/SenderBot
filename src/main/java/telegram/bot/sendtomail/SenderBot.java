@@ -1,6 +1,8 @@
 package telegram.bot.sendtomail;
 
 import io.github.cdimascio.dotenv.Dotenv;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.GetFile;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -17,8 +19,9 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-
 public class SenderBot extends TelegramLongPollingBot {
+
+    private static final Logger log = LoggerFactory.getLogger(SenderBot.class);
 
     private final UserEmailRepository emailRepo;
 
@@ -30,8 +33,6 @@ public class SenderBot extends TelegramLongPollingBot {
             ? System.getenv("SENDER_BOT_NAME")
             : Dotenv.load().get("SENDER_BOT_NAME");
 
-  //  String botToken = System.getenv("BOT_TOKEN");
- //   String botName = System.getenv("BOT_NAME");
 
     public SenderBot(UserEmailRepository emailRepo) {
         this.emailRepo = emailRepo;
@@ -75,13 +76,15 @@ public class SenderBot extends TelegramLongPollingBot {
                         "📎 Send me a photo, document, video, or audio file now.");
 
                 default -> {
-                    // check if it's an email
+
                     if (text.matches("^[\\w.-]+@[\\w.-]+\\.\\w{2,}$")) {
                         try {
                             emailRepo.saveEmail(userId, text);
+                            log.info("Email {} for userId: {} added", text, userId);
                             sendTextMessage(chatId, "✅ Email saved: " + text);
                         } catch (Exception e) {
                             sendTextMessage(chatId, "❌ Failed to save email.");
+                            log.error("Failed to save email", e);
                             e.printStackTrace();
                         }
                     } else {
@@ -100,7 +103,7 @@ public class SenderBot extends TelegramLongPollingBot {
                 return;
             }
             java.io.File fileToSend = null;
-            String extension = ".dat"; // default fallback
+            String extension = ".dat";
             String subject = "File from Telegram";
 
             if (message.hasPhoto()) {
@@ -141,11 +144,12 @@ public class SenderBot extends TelegramLongPollingBot {
             if (fileToSend != null) {
                 EmailSender.sendEmailWithAttachment(receiverEmail, subject, "Telegram file attached", fileToSend);
                 sendTextMessage(message.getChatId(), "✅ File sent to " + receiverEmail);
+                log.info("File sent to {}", receiverEmail);
             }
 
 
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("Failed to send file", e);
             sendTextMessage(message.getChatId(), "❌ Failed to send file: " + e.getMessage());
         }
     }
