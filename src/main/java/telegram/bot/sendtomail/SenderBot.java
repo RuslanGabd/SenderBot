@@ -15,6 +15,7 @@ import java.io.InputStream;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -25,23 +26,19 @@ public class SenderBot extends TelegramLongPollingBot {
 
     private final UserEmailRepository emailRepo;
 
-    private final String botToken = System.getenv("SENDER_BOT_TOKEN") != null
-            ? System.getenv("SENDER_BOT_TOKEN")
-            : Dotenv.load().get("SENDER_BOT_TOKEN");
+//    private final String botToken = System.getenv("SENDER_BOT_TOKEN") != null
+//            ? System.getenv("SENDER_BOT_TOKEN")
+//            : Dotenv.load().get("SENDER_BOT_TOKEN");
 
     private final String botName = System.getenv("SENDER_BOT_NAME") != null
             ? System.getenv("SENDER_BOT_NAME")
             : Dotenv.load().get("SENDER_BOT_NAME");
 
-
-    public SenderBot(UserEmailRepository emailRepo) {
-        this.emailRepo = emailRepo;
-    }
-
-
-    @Override
-    public String getBotToken() {
-        return botToken;
+    public SenderBot() throws SQLException {
+        super(System.getenv("SENDER_BOT_TOKEN") != null
+                ? System.getenv("SENDER_BOT_TOKEN")
+                : Dotenv.load().get("SENDER_BOT_TOKEN"));
+        this.emailRepo = new UserEmailRepository("user_emails.db");
     }
 
     @Override

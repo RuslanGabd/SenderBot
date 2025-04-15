@@ -19,7 +19,7 @@ public class TranslateBot extends TelegramLongPollingBot {
 
     UserPreferenceRepository preferenceRepo;
 
-    DeeplTranslator translator ;
+    DeeplTranslator translator;
 
     private final String botToken = System.getenv("TRANSLATE_BOT_TOKEN") != null
             ? System.getenv("TRANSLATE_BOT_TOKEN")
@@ -35,12 +35,12 @@ public class TranslateBot extends TelegramLongPollingBot {
         return botName;
     }
 
-    @Override
-    public String getBotToken() {
-        return botToken;
-    }
+
 
     public TranslateBot() throws SQLException {
+        super(System.getenv("TRANSLATE_BOT_TOKEN") != null
+                ? System.getenv("TRANSLATE_BOT_TOKEN")
+                : Dotenv.load().get("TRANSLATE_BOT_TOKEN"));
         this.preferenceRepo = new UserPreferenceRepository("user_prefs.db");
         this.translator = new DeeplTranslator();
     }
