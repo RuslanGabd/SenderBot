@@ -1,5 +1,6 @@
 package telegram.bot.sendtomail;
 
+import io.github.cdimascio.dotenv.Dotenv;
 import jakarta.mail.*;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeBodyPart;
@@ -14,8 +15,13 @@ public class EmailSender {
 
     public static void sendEmailWithAttachment(String to, String subject, String body, File attachment) throws MessagingException, IOException {
 
-        String from = System.getenv("EMAIL_USERNAME");
-        String password = System.getenv("EMAIL_PASSWORD");
+        final String password = System.getenv("EMAIL_PASSWORD") != null
+                ? System.getenv("EMAIL_PASSWORD")
+                : Dotenv.load().get("EMAIL_PASSWORD");
+
+        final String from = System.getenv("EMAIL_USERNAME") != null
+                ? System.getenv("EMAIL_USERNAME")
+                : Dotenv.load().get("EMAIL_USERNAME");
 
         Properties props = new Properties();
         props.put("mail.smtp.host", "smtp.gmail.com");
