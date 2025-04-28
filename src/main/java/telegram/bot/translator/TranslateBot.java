@@ -21,27 +21,20 @@ public class TranslateBot extends TelegramLongPollingBot {
 
     DeeplTranslator translator;
 
-    private final String botToken = System.getenv("TRANSLATE_BOT_TOKEN") != null
-            ? System.getenv("TRANSLATE_BOT_TOKEN")
-            : Dotenv.load().get("TRANSLATE_BOT_TOKEN");
-
     private final String botName = System.getenv("TRANSLATE_BOT_NAME") != null
             ? System.getenv("TRANSLATE_BOT_NAME")
             : Dotenv.load().get("TRANSLATE_BOT_NAME");
-
 
     @Override
     public String getBotUsername() {
         return botName;
     }
 
-
-
     public TranslateBot() throws SQLException {
         super(System.getenv("TRANSLATE_BOT_TOKEN") != null
                 ? System.getenv("TRANSLATE_BOT_TOKEN")
                 : Dotenv.load().get("TRANSLATE_BOT_TOKEN"));
-        this.preferenceRepo = new UserPreferenceRepository("user_prefs.db");
+        this.preferenceRepo = new UserPreferenceRepository();
         this.translator = new DeeplTranslator();
     }
 
@@ -66,13 +59,20 @@ public class TranslateBot extends TelegramLongPollingBot {
                 languageSetMode.put(userId, "source");
                 sendTextMessage(chatId, "📥 Select source language:");
                 sendLangOptions(chatId);
+                languageSetMode.put(userId, "target");
+                sendTextMessage(chatId, "📤 Select target language:");
+                sendLangOptions(chatId);
                 return;
             }
             case "🌐 Set Target Language" -> {
                 languageSetMode.put(userId, "target");
                 sendTextMessage(chatId, "📤 Select target language:");
                 sendLangOptions(chatId);
+                languageSetMode.put(userId, "source");
+                sendTextMessage(chatId, "📥 Select source language:");
+                sendLangOptions(chatId);
                 return;
+
             }
         }
 

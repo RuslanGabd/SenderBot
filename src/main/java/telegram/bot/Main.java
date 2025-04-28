@@ -11,5 +11,7 @@ public class Main {
 
         botsApi.registerBot(new SenderBot());
         botsApi.registerBot(new TranslateBot());
+
+
     }
 }

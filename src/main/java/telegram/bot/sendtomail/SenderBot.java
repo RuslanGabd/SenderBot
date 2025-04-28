@@ -26,10 +26,6 @@ public class SenderBot extends TelegramLongPollingBot {
 
     private final UserEmailRepository emailRepo;
 
-//    private final String botToken = System.getenv("SENDER_BOT_TOKEN") != null
-//            ? System.getenv("SENDER_BOT_TOKEN")
-//            : Dotenv.load().get("SENDER_BOT_TOKEN");
-
     private final String botName = System.getenv("SENDER_BOT_NAME") != null
             ? System.getenv("SENDER_BOT_NAME")
             : Dotenv.load().get("SENDER_BOT_NAME");
@@ -38,7 +34,7 @@ public class SenderBot extends TelegramLongPollingBot {
         super(System.getenv("SENDER_BOT_TOKEN") != null
                 ? System.getenv("SENDER_BOT_TOKEN")
                 : Dotenv.load().get("SENDER_BOT_TOKEN"));
-        this.emailRepo = new UserEmailRepository("user_emails.db");
+        this.emailRepo = new UserEmailRepository();
     }
 
     @Override
