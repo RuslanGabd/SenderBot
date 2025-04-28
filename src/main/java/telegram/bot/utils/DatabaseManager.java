@@ -13,9 +13,11 @@ public class DatabaseManager {
         if (connection == null || connection.isClosed() || !isValid(connection)) {
             // Try loading from environment first
             String url = System.getenv("DATABASE_URL");
+            System.out.println("Connecting to " + url);
             String user = System.getenv("PGUSER");
+            System.out.println("PGUSER: " + user);
             String password = System.getenv("PGPASSWORD");
-
+            System.out.println("PGPASSWORD: " + password);
             // If missing, load from .env file (for local dev)
             if (url == null || user == null || password == null) {
                 Dotenv dotenv = Dotenv.load();
