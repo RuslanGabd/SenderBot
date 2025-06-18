@@ -19,7 +19,7 @@ public class EmailSender {
                 ? System.getenv("EMAIL_PASSWORD")
                 : Dotenv.load().get("EMAIL_PASSWORD");
 
-        final String from = System.getenv("EMAIL_USERNAME") != null
+        final String from = System.getenv("EMAIL_USERNAME") != null //
                 ? System.getenv("EMAIL_USERNAME")
                 : Dotenv.load().get("EMAIL_USERNAME");
 
